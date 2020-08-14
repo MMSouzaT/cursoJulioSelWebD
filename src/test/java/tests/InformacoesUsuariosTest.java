@@ -13,8 +13,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import suporte.Generator;
-import suporte.Screenshot;
 
 import java.lang.reflect.GenericArrayType;
 import java.util.concurrent.TimeUnit;
@@ -90,9 +88,9 @@ public class InformacoesUsuariosTest {
         String mensagem = mensagemPop.getText();
         assertEquals("Rest in peace, dear phone!", mensagem);
         //Tirar screenshot
-        String screenshotArquivo = "C:\\Users\\marcio.souza\\IdeaProjects\\webdriver\\test-report" + Generator.dataHoraParaArquivo() + test.getMethodName() + ".png";
-        Screenshot.tirar(navegador, screenshotArquivo);
-         // Aguardar até 10 segundos para que a janela desapareça
+//        String screenshotArquivo = "C:\\Users\\marcio.souza\\IdeaProjects\\webdriver\\test-report" + Generator.dataHoraParaArquivo() + test.getMethodName() + ".png";
+//        Screenshot.tirar(navegador, screenshotArquivo);
+//        Aguardar até 10 segundos para que a janela desapareça
         WebDriverWait aguardar = new WebDriverWait(navegador, 10);
         aguardar.until(ExpectedConditions.stalenessOf(mensagemPop));
         //logout
