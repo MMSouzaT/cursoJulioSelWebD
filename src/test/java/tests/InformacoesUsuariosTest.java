@@ -79,8 +79,9 @@ public class InformacoesUsuariosTest {
 
     @Test
      public void removerUmContatoDoUsuario(){
-        //clicar no seu elemento pelo seu xpath
-        navegador.findElement(By.xpath("//span[text()=\"+551133334444\"]/fallowing-sibling::a")).click();
+        //clicar no seu elemento pelo seu xpath, fallowing pega o elemento seguinte, preciding pega o anterior
+        navegador.findElement(By.xpath("//span[contains(text(),\"+5511985447844\")]/following-sibling::a")).click();
+
         //confirmar a janela javascript
         navegador.switchTo().alert().accept();
         //validar texto Rest in peace, dear phone!
