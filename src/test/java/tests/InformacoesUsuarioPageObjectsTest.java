@@ -19,7 +19,10 @@ public class InformacoesUsuarioPageObjectsTest {
     public void testAdicionarUmaInformacaoAdicionaldoUsuario(){
         new LoginPage(navegador)
                 .clickSignIn()
-                .typeLogin("julio001");
+                .fazerLogin("julio0001", "123456")
+                .clicarMe()
+                .clicarAbaMoreDataAboutYou()
+                .clicarNoBotaoAddMoreDataAboutYou();
 
     }
 
