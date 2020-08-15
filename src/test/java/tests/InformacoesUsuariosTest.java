@@ -1,23 +1,27 @@
 package tests;
 
+import org.easetech.easytest.annotation.DataLoader;
+import org.easetech.easytest.annotation.Param;
+import org.easetech.easytest.runner.DataDrivenTestRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import suporte.Web;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.Assert.assertEquals;
+@RunWith(DataDrivenTestRunner.class)
+@DataLoader(filePaths = "InformacoesusuarioTestData.csv")
 
 public class InformacoesUsuariosTest {
     private WebDriver navegador;
@@ -27,16 +31,9 @@ public class InformacoesUsuariosTest {
 
     @Before
     public void setUp(){
-        //selecionando o chrome driver
-        System.setProperty("webdriver.chrome.driver", "C:\\Windows\\chromedriver.exe");
-        navegador = new ChromeDriver();
-        //faz o selenium esperar esse tempo quando executa esta ação
-        navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        //abrindo navegador
-        navegador.get("http://www.juliodelima.com.br/taskit");
 
+        navegador = Web.createChrome();
         //Clicando no botão através do texto
-        navegador.findElement(By.linkText("Sign in")).click();
         WebElement formularioSignIn = navegador.findElement(By.id("signinbox"));
         //Digitar no campo com nome "login" que está dentro do formulário id"signinbox" o texto "julio0001"
         formularioSignIn.findElement(By.name("login")).sendKeys("julio0001");
@@ -51,8 +48,8 @@ public class InformacoesUsuariosTest {
     }
 
 
-    //@Test
-    public void firstTest(){
+    @Test
+    public void testAdicionarUmaInformacaoAdicionalDoUsuario(@Param(name="tipo")String tipo, @Param(name="contato")String contato, @Param(name="mensagem")String mensagemEsperada){
 
         //clicar em um botão através do seu xpath
         navegador.findElement(By.xpath("//button[@data-target=\"addmoredata\"]")).click();
@@ -60,15 +57,15 @@ public class InformacoesUsuariosTest {
         WebElement popupAddMoreData = navegador.findElement(By.id("addmoredata"));
         //Na combo de name type escolhe a opção "phone
         WebElement campoType = popupAddMoreData.findElement(By.name("type"));
-        new Select(campoType).selectByVisibleText("Phone");
+        new Select(campoType).selectByVisibleText(tipo);
         //no campo de name "contat" digitar "+559999999999"
-        popupAddMoreData.findElement(By.name("contact")).sendKeys("+55999999999");
+        popupAddMoreData.findElement(By.name("contact")).sendKeys(contato);
         // clicar no testlink "save"
         popupAddMoreData.findElement(By.linkText("SAVE")).click();
         //na mensagem de id "toast-container" validar que o texto é "Your contact has been added!"
         WebElement mensagemPop = navegador.findElement(By.id("toast-container"));
         String mensagem = mensagemPop.getText();
-        assertEquals("Your contact has been added!", mensagem);
+        assertEquals(mensagemEsperada, mensagem);
 
 
         //validar que dentro do elemento com class "me" está no texto  "Hi, Julio"
